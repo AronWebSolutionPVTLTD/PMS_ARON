@@ -51,7 +51,7 @@ const AddProject = (props) => {
   useEffect(() => {
     retrieveUsers()
     retrieveClients()
-  }, []);
+  }, [loading]);
 
 
   const handleInputChange = event => {
