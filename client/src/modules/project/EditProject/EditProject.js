@@ -44,7 +44,7 @@ const EditProject = (props) => {
   useEffect(() => {
     retrieveUsers()
     retrieveClients()
-  }, []);
+  }, [loading]);
 
   const retrieveClients = () => {
     setLoading(true)
