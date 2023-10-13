@@ -96,7 +96,7 @@ const EditProject = (props) => {
           </div>
         </div>
         
-        <div class="form-group">
+        {/* <div class="form-group">
           <label>Client</label>
           <select ref={register({ required: true })} onChange={handleInputChange} value={project.client}
             name="client" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
@@ -111,7 +111,7 @@ const EditProject = (props) => {
           <div className="error text-danger">
             {errors.client && projectValidation.client}
           </div>
-        </div>
+        </div> */}
 
         <label>Value<span class="text-danger">*</span></label>
               <div class="input-group mb-3">
@@ -164,7 +164,7 @@ const EditProject = (props) => {
         </div>
 
 
-        <div class="form-group">
+        {/* <div class="form-group">
           <label>Users</label>
           <select ref={register({ required: true })} onChange={handleInputChange} value={project.users}
             name="users" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
@@ -179,7 +179,7 @@ const EditProject = (props) => {
           <div className="error text-danger">
             {errors.users && projectValidation.users}
           </div>
-        </div>
+        </div> */}
 
 
       

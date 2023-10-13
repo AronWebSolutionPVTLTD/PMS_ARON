@@ -29,29 +29,20 @@ const AddProject = (props) => {
   const [project, setProject] = useState(initialState);
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
 
   const onSubmit = (data) => {
     console.log(data)
-    //saveProject(data)
-    // ProjectTestService.create(data)
     projectHTTPService.createProject(data).then(data => {
 
       setProject(initialState)
       showMessage('Confirmation', projectMessage.add, 'success')
       props.closeModal()
-      //setProjects(data.data);
-      //setLoading(false)
 
     })
 
   }
-
-  useEffect(() => {
-    retrieveUsers()
-    retrieveClients()
-  }, []);
 
 
   const handleInputChange = event => {
@@ -61,34 +52,45 @@ const AddProject = (props) => {
   };
 
 
-  const retrieveClients = () => {
-    setLoading(true)
-    clientHTTPService.getAllClient().then(data => {
-      setLoading(false)
-      setClients(data.data)
-
-    });
-    ;
-  };
-
-
-  const retrieveUsers = () => {
-    setLoading(true)
-    userHTTPService.getAllUser()
-      .then(response => {
-        setUsers(response.data.users);
-        console.log(response.data)
-        setLoading(false)
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const usersResponse = await userHTTPService.getAllUser();
+        const clientsResponse = await clientHTTPService.getAllClient();
+      
+        setUsers(usersResponse.data.users);
+        setClients(clientsResponse.data);
+        setLoading(false);
+      } catch (error) {
+       console.log(error)
+       setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
 
   return (
+    <>
     <div className="AddProject">
       <form method="POST" class="" onSubmit={handleSubmit(onSubmit)}>
+
+      {/* <div class="form-group">
+          <label>Users</label>
+          <select ref={register({ required: true })}  defaultValue={project.users}  multiple  onChange={handleInputChange} value={project.users}
+            name="users" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
+          >
+            {
+              users.map(item =>
+                <option value={item._id}>{item.username}</option>
+
+              )
+            }
+          </select>
+          <div className="error text-danger">
+            {errors.users && projectValidation.users}
+          </div>
+        </div>  */}
 
         <div class="form-group">
           <label>Title<span class="text-danger">*</span></label>
@@ -108,7 +110,7 @@ const AddProject = (props) => {
           </div>
         </div>
         
-        <div class="form-group">
+        {/* <div class="form-group">
           <label>Client</label>
           <select ref={register({ required: true })} onChange={handleInputChange} value={project.client}
             name="client" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
@@ -123,7 +125,7 @@ const AddProject = (props) => {
           <div className="error text-danger">
             {errors.client && projectValidation.client}
           </div>
-        </div>
+        </div> */}
 
         <label>Value<span class="text-danger">*</span></label>
               <div class="input-group mb-3">
@@ -176,22 +178,6 @@ const AddProject = (props) => {
         </div>
 
 
-        <div class="form-group">
-          <label>Users</label>
-          <select ref={register({ required: true })} onChange={handleInputChange} value={project.users}
-            name="users" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
-          >
-            {
-              users.map(item =>
-                <option value={item._id}>{item.username}</option>
-
-              )
-            }
-          </select>
-          <div className="error text-danger">
-            {errors.users && projectValidation.users}
-          </div>
-        </div>
 
 
       
@@ -199,7 +185,7 @@ const AddProject = (props) => {
 
         <button type="submit" id="save-form" class="btn btn-success"><i className="fa fa-check"></i>
           <font   ><font   > Save</font></font></button></form>
-    </div>
+    </div></>
   )
 };
 

@@ -95,18 +95,18 @@ const Projects = () => {
     { field: 'title', headerName: 'Title', width: 200, cellClassName: 'title-color' },
     { field: 'starting_date', headerName: 'Start', width: 200, cellClassName: 'start-date-color' },
     { field: 'ending_date', headerName: 'End', width: 200, cellClassName: 'end-date-color' },
-    { field: 'users', headerName: 'CreatedBy', width: 200,valueGetter: (params) => {
-      const user = params.row.users; // Assuming 'client' contains first_name and last_name
-      return `${user.username}`;
-    }, },
+    // { field: 'users', headerName: 'CreatedBy', width: 200,valueGetter: (params) => {
+    //   const user = params.row.users; // Assuming 'client' contains first_name and last_name
+    //   return `${user.username}`;
+    // }, },
     { field: 'status', headerName: 'Status', width: 200, cellClassName: 'status-color' },
-    {  field: 'client',
-    headerName: 'Client',
-    width: 200,
-    valueGetter: (params) => {
-      const client = params.row.client; // Assuming 'client' contains first_name and last_name
-      return `${client.first_name} ${client.last_name}`;
-    }, },
+    // {  field: 'client',
+    // headerName: 'Client',
+    // width: 200,
+    // valueGetter: (params) => {
+    //   const client = params.row.client; // Assuming 'client' contains first_name and last_name
+    //   return `${client.first_name} ${client.last_name}`;
+    // }, },
     { field: 'contractValue', headerName: 'Contract Money', width: 200 },
     { field: 'description', headerName: 'Description', width: 200 },
   ];
