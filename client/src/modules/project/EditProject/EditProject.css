@@ -1,0 +1,18 @@
+.remove_milestone{
+    padding: 2px 25px;
+    border-radius: 4px;
+    border-color: red;
+    background-color:rgba(236, 53, 53, 0.808);
+    border: 1;
+    color: white;
+}
+.completed_miles{
+    display: flex;
+    justify-content: space-between;
+}
+.completed_miles>label{
+   background-color: #198754;
+   color: white;
+   padding: 6px;
+   border-radius: 3px;
+}
