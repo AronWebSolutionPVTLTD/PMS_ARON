@@ -10,7 +10,7 @@ import ActivationPage from './Activation';
 
 const Root = () => {
 
-  const [connected, setConnected] = useState(true);
+  const [connected, setConnected] = useState(false);
 
   const handleClick = num => {
     setConnected(num)
