@@ -6,7 +6,7 @@ exports.getAllProjects = async (req, res) => {
     const projects = await Project.find()
       .sort({ createdAt: -1 })
       .populate('client', 'first_name last_name')
-      .populate('users', 'username');
+      .populate('users', 'username department');
 
     // Iterate through each project to count pending milestones
     const projectsWithPendingMilestones = projects.map((project) => {
@@ -18,6 +18,7 @@ exports.getAllProjects = async (req, res) => {
       // Calculate the amount of completed milestones
       const completedMilestones = project.milestones.filter((milestone) => milestone.completed);
 
+      const recievedAmount = completedMilestones.reduce((total, milestone) => total + milestone.amount, 0);
       // Calculate the remaining contract value
       const remainingContractValue = project.contractValue - completedMilestones.reduce((total, milestone) => total + milestone.amount, 0);
 
@@ -25,7 +26,8 @@ exports.getAllProjects = async (req, res) => {
         ...project._doc,
         pendingMilestonesCount: pendingMilestones.length,
         pendingAmount: pendingAmount,
-        remainingContractValue: remainingContractValue,
+        recievedAmount,
+        remainingContractValue: remainingContractValue >=0 ?remainingContractValue:0,
       };
     });
 
@@ -121,3 +123,126 @@ exports.deleteProject = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+
+// API endpoint to get monthly milestone data
+exports.MonthlyWiseProject = async (req, res) => {
+  try {
+    const data = await getMonthlyMilestoneData();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+}
+
+// Function to calculate monthly milestone data based on project createdAt timestamps
+async function getMonthlyMilestoneData() {
+  const currentDate = new Date();
+  const sixMonthsAgo = new Date(currentDate);
+  sixMonthsAgo.setMonth(currentDate.getMonth() - 6); // Calculate the date six months ago
+
+  const pipeline = [
+    {
+      $match: {
+        "createdAt": { $gte: sixMonthsAgo, $lte: currentDate },
+      },
+    },
+    {
+      $unwind: "$milestones", // Split the milestones array into separate documents
+    },
+    {
+      $match: {
+        "milestones.completed": true,
+      },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$createdAt" },
+          month: { $month: "$createdAt" },
+        },
+        totalAmount: { $sum: "$milestones.amount" },
+      },
+    },
+    {
+      $sort: { "_id.year": 1, "_id.month": 1 }, // Sort by year and month in ascending order
+    },
+  ];
+
+  const result = await Project.aggregate(pipeline);
+
+  // Transform the result to the format you want (name: 'Month Year', uv: totalAmount)
+  const monthlyData = result.map((item) => ({
+    name: `${getMonthName(item._id.month)} ${item._id.year}`,
+    uv: item.totalAmount,
+  }));
+
+  return monthlyData;
+}
+
+function getMonthName(monthNumber) {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  return months[monthNumber - 1];
+}
+
+
+exports.CurrentYearTotalAmount = async (req, res) => {
+  try {
+    const data = await getCurrentYearTotalAmount();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+}
+
+// Function to calculate the current year's total milestone amount based on project createdAt timestamps
+async function getCurrentYearTotalAmount() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  const pipeline = [
+    {
+      $match: {
+        "createdAt": { $gte: new Date(`${currentYear}-01-01T00:00:00.000Z`), $lte: currentDate },
+      },
+    },
+    {
+      $unwind: "$milestones", // Split the milestones array into separate documents
+    },
+    {
+      $match: {
+        "milestones.completed": true,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalAmount: { $sum: "$milestones.amount" },
+      },
+    },
+  ];
+
+  const result = await Project.aggregate(pipeline);
+
+  // The result contains a single document with the totalAmount for the current year
+  if (result.length > 0) {
+    return { totalAmount: result[0].totalAmount };
+  } else {
+    return { totalAmount: 0 };
+  }
+}

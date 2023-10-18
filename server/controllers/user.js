@@ -87,12 +87,33 @@ const ActivateUser = async (req, res, next) => {
           username,
           email,
           password,
+          verified:true
         });
         sendToken(user, 201, res);
       } catch (error) {
         return next(new ErrorHandler(error.message, 500));
       }
     }
+
+const CreateUser = async (req, res, next) => {
+  try {
+  const { username, email, designation,department,phone } = req.body;
+  const usermail = await User.findOne({ email });
+  if (usermail) {
+    return next(new ErrorHandler("User already exists", 400));
+  }
+ 
+  const user = await User.create({
+    ...req.body
+  })
+
+res.status(201).send("User created successfully")
+
+  }catch(err){
+    console.log(err)
+  }
+}
+
   
   const Login = async (req, res, next) => {
     console.log("first")
@@ -288,7 +309,7 @@ const SingleUser = async(req, res, next) => {
       // all users --- for admin
       const AllUsers = async (req, res, next) => {
         try {
-          const users = await User.find().sort({
+          const users = await User.find({verified:false}).sort({
             createdAt: -1,
           });
       
@@ -304,6 +325,19 @@ const SingleUser = async(req, res, next) => {
           }
 
           res.status(201).json({
+            success: true,
+            users,
+          });
+        } catch (error) {
+          return next(new ErrorHandler(error.message, 500));
+        }
+      };
+
+      const AllUsers_OfC = async (req, res, next) => {
+        try {
+          const users = await User.find({verified:true});
+      
+          res.status(200).json({
             success: true,
             users,
           });
@@ -339,4 +373,4 @@ const SingleUser = async(req, res, next) => {
           }
         }
 
-module.exports = {Register,ActivateUser,AllUsers,DeleteUser,GetUser,Login,Logout,SingleUser,UpdateAvatar,UpdatePassword,UpdateUserInfo};
+module.exports = {Register,ActivateUser,AllUsers,DeleteUser,GetUser,Login,Logout,SingleUser,UpdateAvatar,UpdatePassword,UpdateUserInfo,CreateUser,AllUsers_OfC};

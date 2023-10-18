@@ -16,5 +16,5 @@ description:String,
  milestones:[{title:String,description:String,completed:Boolean,amount:Number}]
 },{timestamps:true})
 
-  
+    
   module.exports = model("Project", projectSchema);

@@ -13,12 +13,13 @@ const userSchema = new Schema({
       },
       password:{
         type: String,
-        required: [true, "Please enter your password"],
-        select: false,
       },
       phone:{
         type: String,
       },
+      verified:{type:Boolean,default:false},
+      department:String,
+      designation:String,
       role:{
         type: String,
         default: "Member",
