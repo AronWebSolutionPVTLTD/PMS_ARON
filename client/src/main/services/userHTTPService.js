@@ -6,8 +6,15 @@ const config = {
 const getAllUser = () => {
     return http.get(`${BASE_URL}/user/all`)
 }
+
+const getAllCollabs = () => {
+    return http.get(`${BASE_URL}/user/collabs`)
+}
 const createUser = data => {
     return http.post(`${BASE_URL}/user/register`, data);
+};
+const createUser2 = data => {
+    return http.post(`${BASE_URL}/user/create`, data);
 };
 
 const editUser = (id, data) => {
@@ -28,7 +35,7 @@ const activate = data => {
 export default {
     getAllUser,
     createUser,
-    editUser,
+    editUser,getAllCollabs,
     removeUser,
-    login,activate
+    login,activate,createUser2
 };

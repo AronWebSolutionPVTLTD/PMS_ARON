@@ -144,23 +144,9 @@ console.log(project)
   return (
     <div className="Edit Project">
       <form class="" onSubmit={handleSubmit(onSubmit)}>
-
-        <div class="form-group">
-          <label>Title<span class="text-danger">*</span></label>
-          <input  onChange={handleInputChange} value={project.title}
-            type="text" name="title" class="form-control" required="" />
-   
-        </div>
-
-        <div class="form-group">
-          <label>Short Description<span class="text-danger">*</span></label>
-          <textarea  onChange={handleInputChange} value={project.description}
-            type="text" name="description" class="form-control"></textarea>
-       
-        </div>
-        
-        <div class="form-group">
-          <label>Client</label>
+      <div class="row">
+      <div class="form-group col-md-6">
+          <label>Client Name</label>
           <select  onChange={handleInputChange} value={project.client ? project.client._id : ''}
             name="client" class="selectpicker form-control border-1 rounded "
           >
@@ -173,8 +159,23 @@ console.log(project)
           </select>
      
         </div>
+        <div class="form-group col-md-6">
+          <label>Project Name<span class="text-danger">*</span></label>
+          <input  onChange={handleInputChange} value={project.title}
+            type="text" name="title" class="form-control" required="" />
+   
+        </div>
 
-        <label>Value<span class="text-danger">*</span></label>
+        <div class="form-group">
+          <label>Project Description<span class="text-danger">*</span></label>
+          <textarea  onChange={handleInputChange} value={project.description}
+            type="text" name="description" class="form-control"></textarea>
+       
+        </div>
+        
+ 
+        <div class="form-group col-md-6">
+        <label>Project Cost<span class="text-danger">*</span></label>
               <div class="input-group mb-3">
                 <input  onChange={handleInputChange} value={project.contractValue}
                   type="number" name="contractValue" class="form-control" />
@@ -182,57 +183,18 @@ console.log(project)
                   <span class="input-group-text" id="basic-addon2"> $</span>
                 </div>
               </div>
-
-              <label>Type<span class="text-danger">*</span></label>
+              </div>
+              <div class="form-group col-md-6">
+              <label>Contract Type<span class="text-danger">*</span></label>
               <select  onChange={handleInputChange} value={project.contractType} name="contractType" id="project"
             class="selectpicker form-control border-1 rounded " tabIndex="-1" aria-hidden="true">
-
-                <option value="Fixed-price contracts">Fixed-price contracts</option>
-                <option value="Cost-reimbursable Contracts">Cost-reimbursable Contracts</option>
-                <option value="Time and materials (T&M)">Time and materials (T&M):</option>
+                <option value={''}>Select type</option>
+                <option value="Fixed-price contracts">Fixed-price</option>
+                <option value="Hourly contracts">Hourly</option>
               </select>
+</div>
 
-        <div class="form-group">
-          <label>Start<span class="text-danger">*</span></label>
-          <input  onChange={handleInputChange} value={project.starting_date}
-            type="date" name="starting_date" class="form-control datepicker" />
-    
-        </div>
-
-        <div class="form-group">
-          <label>End<span class="text-danger">*</span></label>
-          <input  onChange={handleInputChange} value={project.ending_date}
-            type="date" name="ending_date" class="form-control datepicker" />
-        </div>
-    
-        <div class="form-group">
-          <label>Status<span class="text-danger">*</span></label>
-          <select  onChange={handleInputChange} value={project.status}
-            name="status" class="selectpicker form-control border-1 rounded ">
-            <option value="Todo">ToDo</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Done">Done</option>
-            <option value="Blocked">Blocked</option>
-          </select>
-     
-        </div>
-
-
-        <div class="form-group">
-          <label>Users</label>
-          <select  onChange={handleInputChange}  value={project.users ? project.users._id : ''}
-            name="users" class="selectpicker form-control border-1 rounded "
-          >
-            {
-              users.map(item =>
-                <option value={item._id}>{item.username}</option>
-
-              )
-            }
-          </select>
-        
-        </div>
-        <div className="form-group">
+              <div className="form-group">
           <div className='Add_milestones'>
     <label>Milestones</label>
     <button type="button" onClick={addMilestone}>➕</button></div>
@@ -279,21 +241,66 @@ console.log(project)
       </div>
     ))}
     </div>
-  </div>
-  <div class="form-group">
+  </div> 
+
+            
+<div class="form-group col-md-6">
+          <label>Start<span class="text-danger">*</span></label>
+          <input  onChange={handleInputChange} value={project.starting_date}
+            type="date" name="starting_date" class="form-control datepicker" />
+    
+        </div>
+
+        <div class="form-group col-md-6">
+          <label>End<span class="text-danger">*</span></label>
+          <input  onChange={handleInputChange} value={project.ending_date}
+            type="date" name="ending_date" class="form-control datepicker" />
+        </div>
+    
+     
+
+
+        <div class="form-group col-md-6">
+          <label>AssignedTo</label>
+          <select  onChange={handleInputChange}  value={project.users ? project.users._id : ''}
+            name="users" class="selectpicker form-control border-1 rounded "
+          >
+            {
+              users.map(item =>
+                <option value={item._id}>{item.username}</option>
+
+              )
+            }
+          </select>
+        </div>
+
+  
+     <div class="form-group col-md-6">
+          <label>Status<span class="text-danger">*</span></label>
+          <select  onChange={handleInputChange} value={project.status}
+            name="status" class="selectpicker form-control border-1 rounded ">
+            <option value="Todo">ToDo</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+            <option value="Blocked">Blocked</option>
+          </select>
+     
+        </div>
+        <div class="form-group col-md-6">
           <label>Rating</label>
           <input  onChange={handleInputChange} value={project.rating}
             type="number" min={0} max={5} name="rating" class="form-control datepicker" />
      
         </div>
-  <div class="form-group">
+        <div class="form-group col-md-6">
           <label>Feedback</label>
           <textarea  onChange={handleInputChange} value={project.feedback}
             type="text" name="feedback" class="form-control"></textarea>
      
         </div>
-        <button type="submit" id="save-form" class="btn btn-success"><i className="fa fa-check"></i>
-          <font   ><font   > Save</font></font></button></form>
+          </div>  <button type="submit" id="save-form" class="btn btn-success"><i className="fa fa-check"></i>
+          <font   ><font   > Save</font></font></button>
+          </form>
     </div>
   )
 

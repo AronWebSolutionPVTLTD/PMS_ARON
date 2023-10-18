@@ -93,27 +93,9 @@ setMilestones([])
   return (
     <div className="AddProject">
       <form method="POST" class="" onSubmit={handleSubmit(onSubmit)}>
-
-        <div class="form-group">
-          <label>Title<span class="text-danger">*</span></label>
-          <input {...register('title', { required: true })}
-            type="text" name="title" class="form-control" required="" />
-          <div className="error text-danger">
-            {errors?.title}
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Short Description<span class="text-danger">*</span></label>
-          <textarea {...register('description', { required: true })}
-            type="text" name="description" class="form-control"></textarea>
-          {/* <div className="error text-danger">
-            {errors.description && projectValidation.description}
-          </div> */}
-        </div>
-        
-        <div class="form-group">
-          <label>Client<span class="text-danger">*</span></label>
+        <div className='row'>
+      <div class="form-group col-md-6">
+          <label>Client Name<span class="text-danger">*</span></label>
           <select {...register('client', { required: true })}
             name="client" class="selectpicker form-control border-1  rounded "
           ><option value={''}>Select client</option>
@@ -128,8 +110,27 @@ setMilestones([])
             {errors.client && projectValidation.client}
           </div> */}
         </div>
+        <div class="form-group col-md-6">
+          <label>Project Name<span class="text-danger">*</span></label>
+          <input {...register('title', { required: true })}
+            type="text" name="title" class="form-control" required="" />
+          <div className="error text-danger">
+            {errors?.title}
+          </div>
+        </div>
 
-        <label>Value<span class="text-danger">*</span></label>
+        <div class="form-group">
+          <label>Project Description<span class="text-danger">*</span></label>
+          <textarea {...register('description', { required: true })}
+            type="text" name="description" class="form-control"></textarea>
+          {/* <div className="error text-danger">
+            {errors.description && projectValidation.description}
+          </div> */}
+        </div>
+        
+     
+        <div class="form-group col-md-6">
+        <label>Project Cost<span class="text-danger">*</span></label>
               <div class="input-group mb-3">
                 <input {...register('contractValue', { required: true })}
                   type="number" name="contractValue" class="form-control" />
@@ -137,68 +138,18 @@ setMilestones([])
                   <span class="input-group-text" id="basic-addon2"> $</span>
                 </div>
               </div>
+              </div>
 
-              <label>Type<span class="text-danger">*</span></label>
+   <div class="form-group col-md-6">
+              <label>Contract Type<span class="text-danger">*</span></label>
               <select {...register('contractType', { required: true })} name="contractType" id="project"
                 class="selectpicker form-control border-1  rounded " tabIndex="-1" aria-hidden="true">
 <option value={''}>Select type</option>
-                <option value="Fixed-price contracts">Fixed-price contracts</option>
-                <option value="Cost-reimbursable Contracts">Cost-reimbursable Contracts</option>
-                <option value="Time and materials (T&M)">Time and materials (T&M):</option>
+                <option value="Fixed-price contracts">Fixed-price</option>
+                <option value="Hourly contracts">Hourly</option>
               </select>
-
-        <div class="form-group">
-          <label>Start<span class="text-danger">*</span></label>
-          <input {...register('starting_date', { required: true })}
-            type="date" name="starting_date" class="form-control datepicker" />
-          {/* <div className="error text-danger">
-            {errors.starting_date && projectValidation.starting_date}
-          </div> */}
-        </div>
-
-        <div class="form-group">
-          <label>End<span class="text-danger">*</span></label>
-          <input {...register('ending_date', { required: true })}
-            type="date" name="ending_date" class="form-control datepicker" />
-          {/* <div className="error text-danger">
-            {errors.ending_date && projectValidation.ending_date}
-          </div> */}
-        </div>
-
-        <div class="form-group">
-          <label>Status<span class="text-danger">*</span></label>
-          <select {...register('status', { required: true })}
-            name="status" class="selectpicker form-control border-1 rounded ">
-              <option value={''}>Select status</option>
-            <option value="Todo">ToDo</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Done">Done</option>
-            <option value="Blocked">Blocked</option>
-          </select>
-          {/* <div className="error text-danger">
-            {errors.status && projectValidation.status}
-          </div> */}
-        </div>
-
-
-        <div class="form-group">
-          <label>Users<span class="text-danger">*</span></label>
-          <select {...register('users', { required: true })}
-            name="users" class="selectpicker form-control border-1 rounded "
-          > <option value={''}>Select user</option>
-            {
-              users.map(item =>
-                <option value={item._id}>{item.username}</option>
-
-              )
-            }
-          </select>
-          {/* <div className="error text-danger">
-            {errors.users && projectValidation.users}
-          </div> */}
-        </div>
-
-        <div className="form-group">
+              </div>
+              <div className="form-group">
           <div className='Add_milestones'>
     <label>Milestones</label>
     <button type="button" onClick={addMilestone}>➕</button></div>
@@ -250,9 +201,59 @@ setMilestones([])
     </div>
   </div>
 
-      
 
+             
+  <div class="form-group col-md-6">
+          <label>Start Date<span class="text-danger">*</span></label>
+          <input {...register('starting_date', { required: true })}
+            type="date" name="starting_date" class="form-control datepicker" />
+          {/* <div className="error text-danger">
+            {errors.starting_date && projectValidation.starting_date}
+          </div> */}
+        </div>
 
+        <div class="form-group col-md-6">
+          <label>End Date<span class="text-danger">*</span></label>
+          <input {...register('ending_date', { required: true })}
+            type="date" name="ending_date" class="form-control datepicker" />
+          {/* <div className="error text-danger">
+            {errors.ending_date && projectValidation.ending_date}
+          </div> */}
+        </div>
+
+        <div class="form-group col-md-6">
+          <label>Assigned To<span class="text-danger">*</span></label>
+          <select {...register('users', { required: true })}
+            name="users" class="selectpicker form-control border-1 rounded "
+          > <option value={''}>Select user</option>
+            {
+              users.map(item =>
+                <option value={item._id}>{item.username}</option>
+
+              )
+            }
+          </select>
+          {/* <div className="error text-danger">
+            {errors.users && projectValidation.users}
+          </div> */}
+        </div>
+
+        <div class="form-group col-md-6">
+          <label>Status<span class="text-danger">*</span></label>
+          <select {...register('status', { required: true })}
+            name="status" class="selectpicker form-control border-1 rounded ">
+              <option value={''}>Select status</option>
+            <option value="Todo">ToDo</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+            <option value="Blocked">Blocked</option>
+          </select>
+          {/* <div className="error text-danger">
+            {errors.status && projectValidation.status}
+          </div> */}
+        </div>
+
+  </div>
         <button type="submit" id="save-form" class="btn btn-success"><i className="fa fa-check"></i>
           <font   ><font   > Save</font></font></button></form>
     </div>

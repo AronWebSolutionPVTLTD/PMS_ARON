@@ -6,17 +6,16 @@ import showMessage from '../../../libraries/messages/messages';
 import CurrentUser from '../../../main/config/user';
 import userMessage from '../../../main/messages/userMessage';
 import userHTTPService from '../../../main/services/userHTTPService';
-import AddUser from './../AddUser/AddUser';
-import EditUser from './../EditUser/EditUser';
-import ViewUser from './../ViewUser/ViewUser';
+
 import './User.css';
+import AddUser from '../AddUser/AddUser_ofc';
 
 
 const deleteUser = () => {
   return window.confirm(CurrentUser.DELTE_MSG)
 }
 
-const User = () => {
+const UserOfc = () => {
 
   const [users, setUsers] = useState([]);
   const [updatedItem, setUpdatedItem] = useState({});
@@ -37,7 +36,7 @@ const User = () => {
 
   const retrieveUsers = () => {
     setLoading(true)
-    userHTTPService.getAllCollabs()
+    userHTTPService.getAllUser()
       .then(response => {
         setUsers(response.data.users);
         console.log(response.data)
@@ -81,8 +80,9 @@ const User = () => {
   }
   const columns = [
     { field: 'username', headerName: 'Username', width: 200 },
-    { field: 'role', headerName: 'Role', width: 200 },
     { field: 'email', headerName: 'Email', width: 300 },
+    { field: 'designation', headerName: 'Designation', width: 200 },
+    { field: 'department', headerName: 'Department', width: 200 },
     { field: 'averageRating', headerName: 'Rating', width: 200 },
   ];
 
@@ -158,7 +158,7 @@ const User = () => {
 
 
 
-        <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        {/* <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -197,14 +197,11 @@ const User = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )
 };
 
-User.propTypes = {};
 
-User.defaultProps = {};
-
-export default User;
+export default UserOfc;

@@ -72,9 +72,11 @@ console.log(clients)
 
 
   const columns = [
-    { field: '_id', headerName: '#', width: 200 },
-    { field: 'last_name', headerName: 'Last name', width: 200 },
-    { field: 'first_name', headerName: 'First name', width: 200 },
+    { field: 'name', headerName: 'Full Name', valueGetter: (params) => {
+      const client = params.row; 
+      return `${client?.first_name} ${client?.last_name}`;
+    }, width: 200 },
+    // { field: 'last_name', headerName: 'Last name', width: 200 },
     { field: 'company', headerName: 'Company', width: 200 },
     { field: 'email', headerName: 'Email', width: 200 },
     { field: 'phone', headerName: 'Telephone', width: 200 },

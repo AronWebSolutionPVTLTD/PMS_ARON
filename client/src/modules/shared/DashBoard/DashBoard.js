@@ -16,7 +16,7 @@ const DashBoard = () => {
               <ProjectInProgress />
             </div>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
 

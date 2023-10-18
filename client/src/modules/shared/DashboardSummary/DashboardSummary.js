@@ -1,28 +1,33 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './DashboardSummary.css';
 import userHTTPService from '../../../main/services/userHTTPService';
 import { useState } from 'react';
 import projectHTTPService from '../../../main/services/projectHTTPService';
 import { useEffect } from 'react';
 import clientHTTPService from '../../../main/services/clientHTTPService';
+import MonthlyRevenueChart from './MonthlyRevenue';
 
 const DashboardSummary = () => {
   const [projects, setProjects] = useState([]);
+  const [data, setData] = useState([]);
   const [users, setUsers] = useState([]);
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+const ref = useRef(null);
   useEffect(() => {
     async function fetchData() {
       try {
         const usersResponse = await userHTTPService.getAllUser();
         const clientsResponse = await clientHTTPService.getAllClient();
         const projectsResponse = await projectHTTPService.getAllProject();
-
+        const dataResponse = await projectHTTPService.uploadFile2();
+        const dataResponse2 = await projectHTTPService.uploadFile3();
         setUsers(usersResponse.data.users);
         setClients(clientsResponse.data);
+        setData(dataResponse.data)
         setProjects(projectsResponse.data);
+        ref.current = dataResponse2?.data?.totalAmount
         setLoading(false);
       } catch (e) {
         setError(e);
@@ -117,6 +122,28 @@ const DashboardSummary = () => {
           </div>
         </div>
       </div>}
+      <div className="mt-xl-5 row align-items-center justify-content-around">
+      <MonthlyRevenueChart data={data} />
+      <div className="col-lg-3 col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <div className="stat-widget-five">
+                <div className="stat-icon dib flat-color-4">
+                  <i className="fas fa-money"></i>
+                </div>
+                <div className="stat-content">
+                  <div className="text-left dib">
+                    <div className="stat-text">
+                      <span className="count">{ref.current}</span>
+                    </div>
+                    <div className="stat-heading">Revenue</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 };

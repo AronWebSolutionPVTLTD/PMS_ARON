@@ -36,6 +36,10 @@ const Navigation = ({ connected }) => {
               <NavLink activeClassName="activeLink" to="/client"><i className="menu-icon fa fa-handshake-o"></i>Clients </NavLink>
             </li>
 
+            <li>
+              <NavLink activeClassName="activeLink" to="/users"><i className="menu-icon fa fa-user"></i>Users </NavLink>
+            </li>
+
           </ul>
         </div>
       </nav>

@@ -22,10 +22,18 @@ const uploadFile = (data) => {
     return http.post(`${BASE_URL}/api/addfile`, data)
 }
 
+const uploadFile2 = (data) => {
+    return http.get(`${BASE_URL}/projects/monthly`, data)
+}
+
+const uploadFile3 = (data) => {
+    return http.get(`${BASE_URL}/projects/yearly`, data)
+}
+
 export default {
     getAllProject,
     createProject,
     editProject,
     removeProject,
-    uploadFile
+    uploadFile,uploadFile2,uploadFile3
 };
