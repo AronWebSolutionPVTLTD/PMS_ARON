@@ -105,7 +105,7 @@ const Projects = () => {
       const client = params.row.client; // Assuming 'client' contains first_name and last_name
       return `${client?.first_name} ${client?.last_name}`;
     }, },
-    { field: 'contractValue', headerName: 'Amount', width: 200 },
+    { field: 'remainingContractValue', headerName: 'Pending Amount', width: 200 },
     { field: 'pendingMilestonesCount', headerName: 'Pending Milestones', width: 200 },
     { field: 'rating', headerName: 'Rating', width: 200 },
   ];

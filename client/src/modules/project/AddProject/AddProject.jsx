@@ -77,6 +77,7 @@ setMilestones([])
     const newMilestone = {
       title: "",
       description: "",
+      amount:0,
       completed: false,
     };
 
@@ -212,12 +213,24 @@ setMilestones([])
       onChange={(e) => handleMilestoneChange(e, index)}
           placeholder={`Milestone ${index + 1}`}
         />
-<div style={{marginTop:"4px"}}>
-        <textarea
+<div>
+<textarea
        className='area_desc'
           type="text"
           name={`description`}
           value={milestone.description}
+          onChange={(e) => handleMilestoneChange(e, index)}
+          placeholder="Description"
+        />
+</div>
+
+<div>
+        <input
+       className='area_desc'
+          type="number" 
+          min={0}
+          name={`amount`}
+          value={milestone.amount}
           onChange={(e) => handleMilestoneChange(e, index)}
           placeholder="Description"
         />
@@ -231,7 +244,7 @@ setMilestones([])
             onChange={(e) => handleMilestoneChange(e, index)}
           />
         </label> */}
-        <button type="button" onClick={() => removeMilestone(index)}>Remove</button></div>
+        <button type="button" className='remove_milestone' onClick={() => removeMilestone(index)}>Remove</button></div>
       </div>
     ))}
     </div>

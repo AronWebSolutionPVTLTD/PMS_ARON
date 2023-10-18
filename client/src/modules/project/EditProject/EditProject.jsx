@@ -121,6 +121,7 @@ console.log(project)
       title: '',
       description: '',
       completed: false,
+      amount:0
     };
     setProject({
       ...project,
@@ -203,13 +204,7 @@ console.log(project)
           <input  onChange={handleInputChange} value={project.ending_date}
             type="date" name="ending_date" class="form-control datepicker" />
         </div>
-        <div class="form-group">
-          <label>Rating<span class="text-danger">*</span></label>
-          <input  onChange={handleInputChange} value={project.rating}
-            type="number" min={0} max={5} name="rating" class="form-control datepicker" />
-     
-        </div>
-
+    
         <div class="form-group">
           <label>Status<span class="text-danger">*</span></label>
           <select  onChange={handleInputChange} value={project.status}
@@ -261,6 +256,15 @@ console.log(project)
           onChange={(e) => handleMilestoneChange(e, index)}
           placeholder="Description"
         />
+         <input
+       className='area_desc'
+          type="number" 
+          min={0}
+          name={`amount`}
+          value={milestone.amount}
+          onChange={(e) => handleMilestoneChange(e, index)}
+          placeholder="Description"
+        />
 <div className='completed_miles'>
          <label className='name_miles_Completed'>
           Completed
@@ -276,6 +280,18 @@ console.log(project)
     ))}
     </div>
   </div>
+  <div class="form-group">
+          <label>Rating</label>
+          <input  onChange={handleInputChange} value={project.rating}
+            type="number" min={0} max={5} name="rating" class="form-control datepicker" />
+     
+        </div>
+  <div class="form-group">
+          <label>Feedback</label>
+          <textarea  onChange={handleInputChange} value={project.feedback}
+            type="text" name="feedback" class="form-control"></textarea>
+     
+        </div>
         <button type="submit" id="save-form" class="btn btn-success"><i className="fa fa-check"></i>
           <font   ><font   > Save</font></font></button></form>
     </div>

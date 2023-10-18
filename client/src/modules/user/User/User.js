@@ -84,7 +84,7 @@ const User = () => {
     { field: 'username', headerName: 'Username', width: 200 },
     { field: 'role', headerName: 'Role', width: 200 },
     { field: 'email', headerName: 'Email', width: 300 },
-    { field: 'rating', headerName: 'Rating', width: 200 },
+    { field: 'averageRating', headerName: 'Rating', width: 200 },
   ];
 
 
