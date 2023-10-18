@@ -11,9 +11,9 @@ description:String,
  contractValue:String,
  contractType:String,
  rating:{type:Number,default:0},
- feedback:String,
+ feedback:{type:String,default:''},
  client: { type: Schema.Types.ObjectId, ref: 'Client' },
- milestones:[{title:String,description:String,completed:Boolean}]
+ milestones:[{title:String,description:String,completed:Boolean,amount:Number}]
 },{timestamps:true})
 
   

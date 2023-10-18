@@ -11,9 +11,21 @@ exports.getAllProjects = async (req, res) => {
     // Iterate through each project to count pending milestones
     const projectsWithPendingMilestones = projects.map((project) => {
       const pendingMilestones = project.milestones.filter((milestone) => !milestone.completed);
+
+      // Calculate the total amount of pending milestones
+      const pendingAmount = pendingMilestones.reduce((total, milestone) => total + milestone.amount, 0);
+
+      // Calculate the amount of completed milestones
+      const completedMilestones = project.milestones.filter((milestone) => milestone.completed);
+
+      // Calculate the remaining contract value
+      const remainingContractValue = project.contractValue - completedMilestones.reduce((total, milestone) => total + milestone.amount, 0);
+
       return {
         ...project._doc,
         pendingMilestonesCount: pendingMilestones.length,
+        pendingAmount: pendingAmount,
+        remainingContractValue: remainingContractValue,
       };
     });
 
@@ -23,6 +35,31 @@ exports.getAllProjects = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+// exports.getAllProjects = async (req, res) => {
+//   try {
+//     const projects = await Project.find()
+//       .sort({ createdAt: -1 })
+//       .populate('client', 'first_name last_name')
+//       .populate('users', 'username');
+
+//     const projectsWithPendingMilestones = projects.map((project) => {
+//       const pendingMilestones = project.milestones.filter((milestone) => !milestone.completed);
+//       const pendingAmount = pendingMilestones.reduce((total, milestone) => total + milestone.amount, 0);
+//       return {
+//         ...project._doc,
+//         pendingMilestonesCount: pendingMilestones.length,
+//         pendingAmount: pendingAmount,
+//       };
+//     });
+
+//     res.json(projectsWithPendingMilestones);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Server Error' });
+//   }
+// };
+
 
 
 
