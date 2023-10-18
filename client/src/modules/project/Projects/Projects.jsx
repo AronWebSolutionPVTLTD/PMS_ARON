@@ -93,7 +93,7 @@ const Projects = () => {
     { field: 'title', headerName: 'Title', width: 200, cellClassName: 'title-color' },
     { field: 'starting_date', headerName: 'Start', width: 200, cellClassName: 'start-date-color' },
     { field: 'ending_date', headerName: 'End', width: 200, cellClassName: 'end-date-color' },
-    { field: 'users', headerName: 'CreatedBy', width: 200,valueGetter: (params) => {
+    { field: 'users', headerName: 'AssignedTo', width: 200,valueGetter: (params) => {
       const user = params.row.users; // Assuming 'client' contains first_name and last_name
       return `${user?.username}`;
     }, },
