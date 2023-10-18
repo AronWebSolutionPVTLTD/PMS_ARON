@@ -34,7 +34,7 @@ const userSchema = new Schema({
      createdAt:{
       type: Date,
       default: Date.now(),
-     },
+     },averageRating: { type: Number, default: 0 },
      resetPasswordToken: String,
      resetPasswordTime: Date,
 })

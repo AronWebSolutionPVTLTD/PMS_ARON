@@ -300,7 +300,7 @@ const SingleUser = async(req, res, next) => {
               totalRating += project.rating;
             }
             const averageRating = projects.length > 0 ? totalRating / projects.length : 0;
-            user.averageRating = averageRating;
+            user.averageRating = averageRating.toFixed(1);
           }
 
           res.status(201).json({
