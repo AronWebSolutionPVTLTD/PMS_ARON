@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Content from '../Content/Content';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
 import Login from '../Login/Login';
 import ActivationPage from './Activation';
+import { NotFound } from './NotFound';
+
 
 
 const Root = () => {
@@ -16,11 +18,16 @@ const Root = () => {
     setConnected(num)
   };
 
+
+
+
+
   return (
     <div>
       <Router>
         <Routes>
       <Route path="/activation/:activation_token" element={<ActivationPage/>} />
+      <Route path="*" element={<NotFound/>} />
       </Routes>
       {connected === true ?
           <div>
@@ -51,9 +58,5 @@ const Root = () => {
 }
 
 
-
-Root.propTypes = {};
-
-Root.defaultProps = {};
 
 export default Root;

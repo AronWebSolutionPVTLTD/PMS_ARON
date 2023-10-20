@@ -15,7 +15,7 @@ const AddProject = (props) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [milestones,setMilestones]=useState([])
-console.log(errors)
+// console.log(errors)
   const onSubmit = (data) => {
     const sendData = {...data,milestones};
     projectHTTPService.createProject(sendData).then(data => {
@@ -66,7 +66,7 @@ setMilestones([])
     userHTTPService.getAllUser()
       .then(response => {
         setUsers(response.data.users);
-        console.log(response.data)
+        // console.log(response.data)
         setLoading(false)
       })
       .catch(e => {

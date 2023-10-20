@@ -17,12 +17,12 @@ const EditProject = (props) => {
 
   useEffect(() => {
     setProject(props.project)
-    console.log(props.project)
+    // console.log(props.project)
   }, [props.project]);
 
-console.log(project)
+// console.log(project)
   const onSubmit = (data) => {
-    console.log(project)
+    // console.log(project)
     projectHTTPService.editProject(props.project._id, project).then(data => {
       props.closeModal()
       showMessage('Confirmation', projectMessage.edit, 'success')
@@ -77,7 +77,7 @@ console.log(project)
     userHTTPService.getAllUser()
       .then(response => {
         setUsers(response.data.users);
-        console.log(response.data)
+        // console.log(response.data)
         setLoading(false)
       })
       .catch(e => {

@@ -1,19 +1,15 @@
+import { LinearProgress } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import './Note.css';
+import useForceUpdate from 'use-force-update';
+import showMessage from '../../../libraries/messages/messages';
+import CurrentUser from '../../../main/config/user';
+import noteMessage from '../../../main/messages/noteMessage';
+import noteHTTPService from '../../../main/services/noteHTTPService';
 import AddNote from './../AddNote/AddNote';
 import EditNote from './../EditNote/EditNote';
 import ViewNote from './../ViewNote/ViewNote';
-import { LoadJS } from '../../../libraries/datatables/datatables';
-import useForceUpdate from 'use-force-update';
-import showMessage from '../../../libraries/messages/messages';
-import noteMessage from '../../../main/messages/noteMessage';
-import NoteTestService from '../../../main/mocks/NoteTestService';
-import HTTPService from '../../../main/services/userHTTPService';
-import noteHTTPService from '../../../main/services/noteHTTPService';
-import { Typography, Button, LinearProgress } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import CurrentUser from '../../../main/config/user';
+import './Note.css';
 
 
 const deleteNote = () => {
@@ -41,7 +37,7 @@ const Note = () => {
 
 
   useEffect(() => {
-    LoadJS()
+
     retrieveNotes()
   }, []);
 

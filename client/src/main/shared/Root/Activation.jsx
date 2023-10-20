@@ -8,14 +8,14 @@ const ActivationPage = () => {
   const { activation_token } = useParams();
   const [error, setError] = useState(false);
   let navigate = useNavigate();
-  console.log(activation_token)
+  // console.log(activation_token)
   useEffect(() => {
     if (activation_token) {
       const sendRequest = async () => {
         const data ={activation_token:activation_token}
         userHTTPService.activate(data)
         .then(response => {
-            console.log(response)
+            // console.log(response)
           if (Object.keys(response.data).length !== 0) {
             navigate.push("/login")
         }})

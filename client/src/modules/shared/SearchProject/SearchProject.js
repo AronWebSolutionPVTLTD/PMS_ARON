@@ -29,7 +29,7 @@ const SearchProject = (props) => {
   const searchProject = (title) => {
     setLoading(true)
     projectHTTPService.searchProject(title).then(data => {
-      console.log(data.data)
+      // console.log(data.data)
       setProjects(data.data);
       setLoading(false)
     })

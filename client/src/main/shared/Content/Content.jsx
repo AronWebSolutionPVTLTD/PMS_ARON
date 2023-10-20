@@ -12,8 +12,8 @@ import './Content.css';
 import UserOfc from '../../../modules/users_creation/User/User_ofc';
 const Content = ({ connected }) => (
   <div className="col-md-12" style={{ display: (connected ? 'block' : 'none') }}>
-
     <Routes>
+      <Route path="/" element={<DashBoard/>} />
       <Route path="/dashboard" element={<DashBoard/>} />
      <Route path="/projects" element={<Projects/>} />
       <Route path="/client" element={<Client/>} />

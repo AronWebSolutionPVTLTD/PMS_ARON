@@ -45,7 +45,7 @@ const Client = () => {
     });
     ;
   };
-console.log(clients)
+// console.log(clients)
   const resfresh = () => {
     retrieveClients()
     forceUpdate()
@@ -82,7 +82,7 @@ console.log(clients)
     { field: 'phone', headerName: 'Telephone', width: 200 },
     { field: 'platform', headerName: 'Platform', width: 200 },
   ]
-console.log(clients)
+// console.log(clients)
 
   const handleRowSelection = (e) => {
     if (e.length == 1) {
@@ -95,11 +95,21 @@ console.log(clients)
     setUpdatedItemIds(e)
 
   }
-  console.log(updatedItem);
+  // console.log(updatedItem);
   const [updatedItemId, setUpdatedItemId] = useState(0);
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showChart, setShowChart] = useState(false);
+
+  const copy = (e, data) => {
+    let {_id,...others}=data;
+    others.email=`${others.first_name}_copy@gmail.com`
+    // others.username=`${Date.now()}Demo`
+    clientHTTPService.createClient(others).then(data => {
+      console.log(data.data)
+      resfresh()
+    })
+  }
 
   return (
 
@@ -110,7 +120,8 @@ console.log(clients)
       </div>
       <div className="card-body">
         <button type="button" className="btn btn-success btn-sm" data-toggle="modal" data-target="#addClient"><i class="far fa-plus-square"></i>  Create</button>
-        <button type="button" onClick={e => update(e, updatedItem)} data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> edit</button>
+        <button onClick={e => copy(e, updatedItem)} type="button" class="btn btn-warning btn-sm"><i class="fas fa-copy"></i> Copy</button>
+        <button type="button" onClick={e => update(e, updatedItem)} data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> edit</button>
         <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
         {loading ?
           <LinearProgress />

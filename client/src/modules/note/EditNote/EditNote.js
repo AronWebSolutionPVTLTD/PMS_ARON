@@ -20,7 +20,7 @@ const EditNote = (props) => {
 
 
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     noteHTTPService.editNote(props.note.id, data).then(data => {
       props.closeModal()
       showMessage('Confirmation', noteMessage.edit, 'success')

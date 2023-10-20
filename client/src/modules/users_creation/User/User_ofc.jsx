@@ -4,11 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import useForceUpdate from 'use-force-update';
 import showMessage from '../../../libraries/messages/messages';
 import CurrentUser from '../../../main/config/user';
-import userMessage from '../../../main/messages/userMessage';
 import userHTTPService from '../../../main/services/userHTTPService';
 
-import './User.css';
+import userMessageOfc from '../../../main/messages/usersMessageOfc';
 import AddUser from '../AddUser/AddUser_ofc';
+import EditUser from '../EditUser/EditUser';
+import './User.css';
 
 
 const deleteUser = () => {
@@ -22,6 +23,13 @@ const UserOfc = () => {
   const forceUpdate = useForceUpdate();
   const [loading, setLoading] = useState(false);
   const closeButtonAdd = useRef(null);
+  
+  const closeButtonEdit = useRef(null);
+
+  const closeModalEdit = (data) => {
+    resfresh()
+    closeButtonEdit.current.click()
+  }
   const closeModalAdd = (data) => {
     resfresh()
     closeButtonAdd.current.click()
@@ -39,7 +47,7 @@ const UserOfc = () => {
     userHTTPService.getAllUser()
       .then(response => {
         setUsers(response.data.users);
-        console.log(response.data)
+        // console.log(response.data)
         setLoading(false)
       })
       .catch(e => {
@@ -64,10 +72,9 @@ const UserOfc = () => {
     if (r) {
 
       userHTTPService.removeUser(data).then(data => {
-        showMessage('Confirmation', userMessage.delete, 'success')
+        showMessage('Confirmation', userMessageOfc.delete, 'success')
         retrieveUsers()
       })
-      //removeOne(data)
       resfresh()
     }
 
@@ -92,11 +99,12 @@ const UserOfc = () => {
       setUpdatedItemId(e[0])
       const selectedItem = users.find(item => item._id == e[0])
       setUpdatedItem(selectedItem)
-      console.log(updatedItem);
+      // console.log(updatedItem);
     }
     setUpdatedItemIds(e)
 
   }
+  // console.log(updatedItem)
   const [updatedItemId, setUpdatedItemId] = useState(0);
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
@@ -111,15 +119,32 @@ const UserOfc = () => {
         }) */
     }
   }
+
+
+
+  const copy = (e, data) => {
+    let {_id,...others}=data;
+    others.email=`${others?.email?.split("@")[0]}_copy@gmail.com`
+    others.username=`${others?.username}_copy`
+    userHTTPService.createUser2(others).then(data => {
+      // console.log(data.data)
+      resfresh()
+    })
+  }
+
   return (
     <div className="card">
       <div className="card-header">
-        <h4><i class="menu-icon fas fa-restroom"></i> Collaborators</h4>
+        <h4><i class="menu-icon fas fa-restroom"></i> Users</h4>
       </div>
       <div className="card-body">
 
-        <button type="button" className="btn btn-success btn-sm" data-toggle="modal" data-target="#addUser"><i class="far fa-plus-square"></i>  Create</button>
-        {/* <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button> */}
+        <button type="button" className="btn btn-success btn-sm" data-toggle="modal" data-target="#addUser"><i class="far fa-plus-square"></i>  Create</button>     
+        <button onClick={e => copy(e, updatedItem)} type="button" class="btn btn-warning btn-sm"><i class="fas fa-copy"></i> Copy</button>
+        <button onClick={e => update(e, updatedItem)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Edit</button>
+ 
+
+        <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
         {loading ?
           <LinearProgress />
           : <div style={{ height: 530, width: '100%' }}><DataGrid
@@ -129,7 +154,7 @@ const UserOfc = () => {
             getRowId={(row) => row._id}
             rowsPerPageOptions={[6]}
             checkboxSelection
-            onSelectionModelChange={handleRowSelection}
+            onRowSelectionModelChange={handleRowSelection}
             components={{ Toolbar: GridToolbar }}
           /></div>}
 
@@ -156,9 +181,7 @@ const UserOfc = () => {
           </div>
         </div>
 
-
-
-        {/* <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -168,36 +191,14 @@ const UserOfc = () => {
                 </button>
               </div>
               <div class="modal-body">
-                <EditUser project={updatedItem} />
+              <EditUser user={updatedItem} closeModal={closeModalEdit} />
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
+                <button onClick={resfresh} ref={closeButtonEdit} type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  
               </div>
             </div>
           </div>
         </div>
-
-
-        <div class="modal fade" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <ViewUser />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   )

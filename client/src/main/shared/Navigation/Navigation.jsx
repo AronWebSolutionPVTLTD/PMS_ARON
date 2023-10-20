@@ -5,7 +5,6 @@ const Navigation = ({ connected }) => {
  
   return (
 
-
     <aside id="left-panel" className="left-panel" style={{ display: (connected ? 'block' : 'none') }}>
       <nav className="navbar navbar-expand-sm navbar-default">
 
@@ -47,11 +46,5 @@ const Navigation = ({ connected }) => {
 
 
 }
-
-
-
-Navigation.propTypes = {};
-
-Navigation.defaultProps = {};
 
 export default Navigation;

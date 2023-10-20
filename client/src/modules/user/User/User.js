@@ -33,14 +33,12 @@ const User = () => {
   }, []);
 
 
-
-
   const retrieveUsers = () => {
     setLoading(true)
     userHTTPService.getAllCollabs()
       .then(response => {
         setUsers(response.data.users);
-        console.log(response.data)
+        // console.log(response.data)
         setLoading(false)
       })
       .catch(e => {
@@ -92,7 +90,7 @@ const User = () => {
       setUpdatedItemId(e[0])
       const selectedItem = users.find(item => item._id == e[0])
       setUpdatedItem(selectedItem)
-      console.log(updatedItem);
+      // console.log(updatedItem);
     }
     setUpdatedItemIds(e)
 

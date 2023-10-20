@@ -17,7 +17,7 @@ const [show,setShow]=useState(false)
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     userHTTPService.login(data)
       .then(response => {
         if (Object.keys(response.data).length !== 0) {

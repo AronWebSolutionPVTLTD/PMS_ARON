@@ -18,11 +18,11 @@ const createUser2 = data => {
 };
 
 const editUser = (id, data) => {
-    return http.put(`${BASE_URL}/api/user/${id}`, data);
+    return http.put(`${BASE_URL}/user/update-user-info`, data);
 };
 
 const removeUser = id => {
-    return http.delete(`${BASE_URL}/api/user/${id}`);
+    return http.delete(`${BASE_URL}/user/delete-user/${id}`);
 };
 
 const login = data => {

@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ProjectInProgress from '../../../modules/project/ProjectInProgress/ProjectInProgress';
 import DashboardSummary from '../../../modules/shared/DashboardSummary/DashboardSummary';
 
 
 const DashBoard = () => {
+  
   return (
 
     <div className="col-md-12">

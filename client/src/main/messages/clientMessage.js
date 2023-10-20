@@ -1,7 +1,7 @@
 const clientMessage = {
-    add: 'Item has been successfully added',
-    edit: 'Item has been successfully edited',
-    delete: 'Item has been successfully removed'
+    add: 'Client has been successfully added',
+    edit: 'Client has been successfully edited',
+    delete: 'Client has been successfully removed'
 }
 
 export default clientMessage

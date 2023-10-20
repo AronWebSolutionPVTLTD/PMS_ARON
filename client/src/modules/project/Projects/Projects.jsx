@@ -35,6 +35,7 @@ const Projects = () => {
     closeButtonAdd.current.click()
   }
   useEffect(() => {
+  
     setLoading(false)
     retrieveProjects()
   }, []);
@@ -47,7 +48,7 @@ const Projects = () => {
     //var projects = ProjectTestService.getAll();
     setLoading(true)
     projectHTTPService.getAllProject().then(data => {
-      console.log(data.data,"dfdskjnfn sidhf io")
+      // console.log(data.data,"dfdskjnfn sidhf io")
       setProjects(data.data);
       setLoading(false)
     })
@@ -75,43 +76,41 @@ const Projects = () => {
 
   const update = (e, data) => {
     e.preventDefault();
-    console.log(data)
+    // console.log(data)
     setUpdatedItem(data)
 
   }
 
   const copy = (e, data) => {
-    projectHTTPService.copyProject(data.id).then(data => {
-      console.log(data.data)
-      //buttonEdit.current.click()
-      //update(data.data)
+    const {_id,...others}=data;
+    projectHTTPService.createProject(others).then(data => {
+      // console.log(data.data)
       resfresh()
     })
   }
   const columns = [
     {  field: 'client',
     headerName: 'Client',
-    width: 200,
+    width: 150,
     valueGetter: (params) => {
-      const client = params.row.client; // Assuming 'client' contains first_name and last_name
+      const client = params.row.client; 
       return `${client?.first_name} ${client?.last_name}`;
     }, },
-    { field: 'title', headerName: 'Title', width: 200, cellClassName: 'title-color' },
-    { field: 'starting_date', headerName: 'Start', width: 200, cellClassName: 'start-date-color' },
-    { field: 'ending_date', headerName: 'End', width: 200, cellClassName: 'end-date-color' },
-    { field: 'users', headerName: 'AssignedTo', width: 200,valueGetter: (params) => {
-      const user = params.row.users; // Assuming 'client' contains first_name and last_name
+    { field: 'title', headerName: 'Title', width: 150, cellClassName: 'title-color' },
+    { field: 'starting_date', headerName: 'Start', width: 150, cellClassName: 'start-date-color' },
+    { field: 'ending_date', headerName: 'End', width: 150, cellClassName: 'end-date-color' },
+    { field: 'users', headerName: 'AssignedTo', width: 150,valueGetter: (params) => {
+      const user = params.row.users; 
       return `${user?.username}`;
     }, },
-    { field: 'department', headerName: 'Department', width: 200,valueGetter: (params) => {
-      const user = params.row.users; // Assuming 'client' contains first_name and last_name
+    { field: 'department', headerName: 'Department', width: 150,valueGetter: (params) => {
+      const user = params.row.users; 
       return `${user?.department}`;
     }, },
-    { field: 'recievedAmount', headerName: 'Recieved Amount', width: 200 },
-    { field: 'remainingContractValue', headerName: 'Pending Amount', width: 200 },
-    { field: 'status', headerName: 'Status', width: 200, cellClassName: 'status-color' },
-    // { field: 'pendingMilestonesCount', headerName: 'Pending Milestones', width: 200 },
-    { field: 'rating', headerName: 'Rating', width: 200 },
+    { field: 'recievedAmount', headerName: 'Recieved Amount', width: 150 },
+    { field: 'remainingContractValue', headerName: 'Pending Amount', width: 150 },
+    { field: 'status', headerName: 'Status', width: 150, cellClassName: 'status-color' },
+    { field: 'rating', headerName: 'Rating', width: 100 },
   ];
 
   const handleRowSelection = (e) => {
@@ -119,9 +118,9 @@ const Projects = () => {
 
       setUpdatedItemId(e[0])
       const selectedItem = projects.find(item => item._id == e[0])
-      console.log(selectedItem)
+      // console.log(selectedItem)
       setUpdatedItem(selectedItem)
-      console.log(updatedItem);
+      // console.log(updatedItem);
     }
     setUpdatedItemIds(e)
 
@@ -150,7 +149,7 @@ const Projects = () => {
   useEffect(() => {
     
     const counts = projects.reduce((accumulator, project) => {
-      console.log(project.status)
+      // console.log(project.status)
       switch (project.status) {
         case 'Todo':
           accumulator.todo++;
@@ -173,7 +172,7 @@ const Projects = () => {
     setStatusCounts(counts);
   }, [loading]);
 const {todo,done,inProgress,blocked}=statusCounts;
-console.log(updatedItem)
+// console.log(updatedItem)
   return (
 
     <div className="card">
@@ -183,7 +182,7 @@ console.log(updatedItem)
       <div className="card-body">
         <ProjectSummary todo={todo} done={done} inProgress={inProgress} blocked={blocked} />
         <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#addProject"><i class="far fa-plus-square"></i>  Create</button>
-        {/* <button onClick={e => copy(e, updatedItem)} type="button" class="btn btn-warning btn-sm"><i class="fas fa-copy"></i> Copy</button> */}
+        <button onClick={e => copy(e, updatedItem)} type="button" class="btn btn-warning btn-sm"><i class="fas fa-copy"></i> Copy</button>
         <button onClick={e => update(e, updatedItem)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> Edit</button>
         <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
 
