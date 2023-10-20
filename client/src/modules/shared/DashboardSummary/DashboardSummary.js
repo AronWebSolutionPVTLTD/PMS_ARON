@@ -15,6 +15,7 @@ const DashboardSummary = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 const ref = useRef(null);
+const ref2 = useRef(null);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -27,7 +28,9 @@ const ref = useRef(null);
         setClients(clientsResponse.data);
         setData(dataResponse.data)
         setProjects(projectsResponse.data);
-        ref.current = dataResponse2?.data?.totalAmount
+        console.log(dataResponse2)
+        ref.current = dataResponse2?.data?.currentYearTotalAmount
+        ref2.current = dataResponse2?.data?.currentYearPendingAmount
         setLoading(false);
       } catch (e) {
         setError(e);
@@ -137,6 +140,26 @@ const ref = useRef(null);
                       <span className="count">{ref.current}</span>
                     </div>
                     <div className="stat-heading">Revenue</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div className="col-lg-3 col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <div className="stat-widget-five">
+                <div className="stat-icon dib flat-color-4">
+                  <i className="fas fa-money"></i>
+                </div>
+                <div className="stat-content">
+                  <div className="text-left dib">
+                    <div className="stat-text">
+                      <span className="count">{ref2.current}</span>
+                    </div>
+                    <div className="stat-heading">Pending</div>
                   </div>
                 </div>
               </div>
