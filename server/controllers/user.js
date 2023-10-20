@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const project = require("../model/project");
+const user = require("../model/user");
 
 
 
@@ -25,7 +26,7 @@ const project = require("../model/project");
       email,
       password
     };
-console.log(user)
+// console.log(user)
     // if(myCloud){
     //   user.avatar= {
     //     public_id: myCloud.public_id,
@@ -67,12 +68,12 @@ console.log(user)
 const ActivateUser = async (req, res, next) => {
       try {
         const { activation_token } = req.body;
-  console.log(activation_token)
+  // console.log(activation_token)
         const newUser = jwt.verify(
           activation_token,
           process.env.ACTIVATION_SECRET
         );
-  console.log(newUser,process.env.ACTIVATION_SECRET)
+  // console.log(newUser,process.env.ACTIVATION_SECRET)
         if (!newUser) {
           return next(new ErrorHandler("Invalid token", 400));
         }
@@ -116,7 +117,7 @@ res.status(201).send("User created successfully")
 
   
   const Login = async (req, res, next) => {
-    console.log("first")
+    // console.log("first")
       try {
         const { email, password } = req.body;
   
@@ -186,26 +187,14 @@ res.status(201).send("User created successfully")
   const UpdateUserInfo  =async (req, res, next) => {
       try {
         const { email, password, phoneNumber, name } = req.body;
+  // console.log(req.body)
+        const userP = await User.findOne({ email }).select("+password");
   
-        const user = await User.findOne({ email }).select("+password");
-  
-        if (!user) {
+        if (!userP) {
           return next(new ErrorHandler("User not found", 400));
         }
   
-        const isPasswordValid = await user.comparePassword(password);
-  
-        if (!isPasswordValid) {
-          return next(
-            new ErrorHandler("Please provide the correct information", 400)
-          );
-        }
-  
-        user.name = name;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-  
-        await user.save();
+         const user = await User.findByIdAndUpdate({_id:userP._id},{...req.body},{new:true})
   
         res.status(201).json({
           success: true,
@@ -280,7 +269,7 @@ const UpdatePassword = async (req, res, next) => {
       // find user infoormation with the userId
 const SingleUser = async(req, res, next) => {
           try {
-            console.log(req.params)
+            // console.log(req.params)
             const user = await User.findById(req.params.id);;
             if(!user){
               return next(
@@ -288,7 +277,7 @@ const SingleUser = async(req, res, next) => {
               );
             }
           const projects = await project.find({users:user._id}).select('rating');
-          console.log(projects)
+          // console.log(projects)
           if(projects.length!==0){
             let totalRating = 0;
             for (const project of projects) {
@@ -350,7 +339,7 @@ const SingleUser = async(req, res, next) => {
       // delete users --- admin
    const DeleteUser = async (req, res, next) => {
           try {
-            const user = await User.findById(req.params.id);
+            const user = await User.findByIdAndDelete(req.params.id);
       
             if (!user) {
               return next(
@@ -358,13 +347,13 @@ const SingleUser = async(req, res, next) => {
               );
             }
       
-            const imageId = user.avatar.public_id;
+            // const imageId = user.avatar.public_id;
       
-            await cloudinary.v2.uploader.destroy(imageId);
+            // await cloudinary.v2.uploader.destroy(imageId);
       
-            await User.findByIdAndDelete(req.params.id);
+            // await User.findByIdAndDelete(req.params.id);
       
-            res.status(201).json({
+            res.status(200).json({
               success: true,
               message: "User deleted successfully!",
             });

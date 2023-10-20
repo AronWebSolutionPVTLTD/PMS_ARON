@@ -18,7 +18,7 @@ app.post("/logout", catchAsyncErrors(Logout));
 app.post("/getuser", catchAsyncErrors(GetUser));
 app.post("/update-avatar", catchAsyncErrors(UpdateAvatar));
 app.post("/update-user-password", catchAsyncErrors(UpdatePassword));
-app.post("/update-user-info", catchAsyncErrors(UpdateUserInfo));
+app.put("/update-user-info", catchAsyncErrors(UpdateUserInfo));
 app.get("/user-info/:id", catchAsyncErrors(SingleUser));
 app.get("/all", catchAsyncErrors(AllUsers));
 app.get("/collabs", catchAsyncErrors(AllUsers_OfC));

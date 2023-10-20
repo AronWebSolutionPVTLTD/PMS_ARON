@@ -24,7 +24,7 @@ exports.getClientCount = async (req, res) => {
 
 // Create a new client
 exports.createClient = async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
   try {
     const newClient = new Client(req.body);
     const savedClient = await newClient.save();
@@ -59,7 +59,7 @@ exports.editClient = async (req, res) => {
 exports.deleteClient = async (req, res) => {
   try {
     const deletedClient = await Client.findByIdAndRemove(req.params.id);
-
+console.log(deletedClient)
     if (!deletedClient) {
       return res.status(404).json({ message: 'Client not found' });
     }
