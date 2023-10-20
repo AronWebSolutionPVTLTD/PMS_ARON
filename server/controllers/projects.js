@@ -200,10 +200,76 @@ function getMonthName(monthNumber) {
 }
 
 
+// exports.CurrentYearTotalAmount = async (req, res) => {
+//   try {
+//     const data = await getCurrentYearTotalAmount();
+//     res.json(data);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Server Error' });
+//   }
+// }
+
+// // Function to calculate the current year's total milestone amount based on project createdAt timestamps
+// async function getCurrentYearTotalAmount() {
+//   const currentDate = new Date();
+//   const currentYear = currentDate.getFullYear();
+
+//   const pipeline = [
+//     {
+//       $match: {
+//         "createdAt": { $gte: new Date(`${currentYear}-01-01T00:00:00.000Z`), $lte: currentDate },
+//       },
+//     },
+//     {
+//       $unwind: "$milestones", // Split the milestones array into separate documents
+//     },
+//     {
+//       $match: {
+//         "milestones.completed": true,
+//       },
+//     },
+//     {
+//       $group: {
+//         _id: null,
+//         totalAmount: { $sum: "$milestones.amount" },
+//       },
+//     },
+//   ];
+
+//   const result = await Project.aggregate(pipeline);
+
+//   // The result contains a single document with the totalAmount for the current year
+//   if (result.length > 0) {
+//     return { totalAmount: result[0].totalAmount };
+//   } else {
+//     return { totalAmount: 0 };
+//   }
+// }
+
 exports.CurrentYearTotalAmount = async (req, res) => {
   try {
-    const data = await getCurrentYearTotalAmount();
-    res.json(data);
+    const [currentYearTotalAmount, currentYearPendingAmount] = await Promise.all([
+      getCurrentYearTotalAmount(),
+      getCurrentYearPendingAmount()
+    ]);
+    
+    res.json({ currentYearTotalAmount, currentYearPendingAmount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+}
+
+// Function to calculate the current year's total milestone amount based on project createdAt timestamps
+exports.CurrentYearTotalAmount = async (req, res) => {
+  try {
+    const currentYearTotalAmount = await getCurrentYearTotalAmount();
+    const currentYearContractValue = await getCurrentYearContractValue();
+    
+    const currentYearPendingAmount = currentYearContractValue - currentYearTotalAmount;
+    
+    res.json({ currentYearTotalAmount, currentYearPendingAmount });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
@@ -241,8 +307,46 @@ async function getCurrentYearTotalAmount() {
 
   // The result contains a single document with the totalAmount for the current year
   if (result.length > 0) {
-    return { totalAmount: result[0].totalAmount };
+    return result[0].totalAmount;
   } else {
-    return { totalAmount: 0 };
+    return 0;
   }
 }
+
+// Function to calculate the current year's total contract value
+async function getCurrentYearContractValue() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  const pipeline = [
+    {
+      $match: {
+        "createdAt": {
+          $gte: new Date(`${currentYear}-01-01T00:00:00.000Z`),
+          $lte: currentDate,
+        },"status": { $ne: "blocked" }
+      },
+    },
+    {
+      $addFields: {
+        contractValueDouble: { $toDouble: "$contractValue" }, 
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalContractValue: { $sum: "$contractValueDouble" }, 
+      },
+    },
+  ];
+  
+
+  const result = await Project.aggregate(pipeline);
+
+  if (result.length > 0) {
+    return result[0].totalContractValue;
+  } else {
+    return 0;
+  }
+}
+
